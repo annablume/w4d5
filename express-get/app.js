@@ -19,6 +19,42 @@ app.get('/', (req, res) => {
     res.render('movies', { moviesList: movies });
 })
 
+// query string
+// app.get('/movies', (req, res) => {
+//     res.send(req.query.name)
+// })
+
+app.get('/movies', (req, res) => {
+    const searchedMovie = movies.filter(function (movie) {
+        return movie
+            .title
+            .toLowerCase()
+            .includes(req.query.title.toLowerCase())
+    })
+    //res.send(req.query.title)
+    res.render('movies', { moviesList: searchedMovies })
+})
+
+
+
+app.get('/movies/:title', (req, res) => {
+    const movie = movies.find(function (movie) {
+        return movie.title === req.params.title;
+    })
+    //res.send(movie) 
+    res.render('movieDetails', {clickedMovie: movie})
+})
+
+// app.get('/politics/:country/:title', (req, res) => {
+//     // console.log(req.params);
+//     res.send(req.params.country)
+// })
+
+app.get('/:username', (req, res) => {
+    console.log(req.params);
+    res.send(req.params.username)
+})
+
 app.get('/dog', (req, res) => {
     res.render('dog', { data: '<h2>this is a heading</h2>' })
 })
